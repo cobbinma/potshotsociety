@@ -28,10 +28,25 @@ export const metadata: Metadata = {
   publisher: 'Pot Shot Society',
   icons: {
     icon: [
-      { url: '/favicon.ico', sizes: '32x32' },
-      { url: '/favicon-32.jpg', sizes: '32x32', type: 'image/jpeg' },
+      { url: '/favicon.ico', sizes: '48x48' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
     ],
-    apple: '/logo.jpg',
+    apple: '/apple-touch-icon.png',
+    other: [
+      {
+        rel: 'icon',
+        type: 'image/png',
+        sizes: '192x192',
+        url: '/android-chrome-192x192.png',
+      },
+      {
+        rel: 'icon',
+        type: 'image/png',
+        sizes: '512x512',
+        url: '/android-chrome-512x512.png',
+      },
+    ],
   },
   manifest: '/manifest.json',
   openGraph: {
@@ -43,18 +58,18 @@ export const metadata: Metadata = {
     description: SITE_DESCRIPTION,
     images: [
       {
-        url: '/logo.jpg',
-        width: 1200,
-        height: 630,
+        url: '/android-chrome-512x512.png',
+        width: 512,
+        height: 512,
         alt: `${SITE_NAME} - Delicious recipes to share`,
       },
     ],
   },
   twitter: {
-    card: 'summary_large_image',
+    card: 'summary',
     title: SITE_NAME,
     description: SITE_DESCRIPTION,
-    images: ['/logo.jpg'],
+    images: ['/android-chrome-512x512.png'],
   },
   robots: {
     index: true,
