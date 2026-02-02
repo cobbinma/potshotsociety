@@ -102,35 +102,70 @@ const decimalToFraction = (decimal: number): string => {
 export function scaleIngredient(ingredient: string, scale: number): string {
   if (scale === 1) return ingredient
 
-  // Regex to match numbers (including fractions and decimals) at the start of the string
-  const numberPattern = /^(\d+(?:[.,]\d+)?|\d+\s*[-\/]\s*\d+|[¼½¾⅓⅔⅛⅜⅝⅞]|\d+\s*[¼½¾⅓⅔⅛⅜⅝⅞])/
+  const trimmed = ingredient.trim()
+  
+  // If it's just a header (no numbers or common measurement words), return as-is
+  if (isLikelyHeader(trimmed)) {
+    return ingredient
+  }
 
-  const match = ingredient.match(numberPattern)
+  // Handle "Juice of X lemon" pattern
+  const juicePattern = /^(.*\bof\s+)(\d+)\s+(lemon|lime|orange)/i
+  const juiceMatch = trimmed.match(juicePattern)
+  if (juiceMatch) {
+    const prefix = juiceMatch[1]
+    const count = parseInt(juiceMatch[2])
+    const fruit = juiceMatch[3]
+    const scaledCount = count * scale
+    const formatted = formatScaledNumber(scaledCount)
+    return `${prefix}${formatted} ${fruit}`
+  }
+
+  // Pattern to match numbers at the start (with various formats)
+  // Handles: "2 eggs", "½ cup", "1½ cups", "4-6 thighs", "4–6 thighs" (en-dash)
+  const startPattern = /^(\d+(?:[.,]\d+)?|[¼½¾⅓⅔⅛⅜⅝⅞]|\d+\s*[¼½¾⅓⅔⅛⅜⅝⅞]|\d+\s*[\/]\s*\d+|\d+\s*[-–]\s*\d+)/
+  
+  const match = trimmed.match(startPattern)
   
   if (!match) {
-    // No number found, return as-is
+    // No number at start, return as-is
     return ingredient
   }
 
   const originalNumber = match[1].trim()
-  let numericValue = 0
+  let scaledReplacement = ''
 
-  // Parse different number formats
-  if (fractionMap[originalNumber]) {
-    // Single fraction
-    numericValue = fractionMap[originalNumber]
-  } else if (originalNumber.includes('/') || originalNumber.includes('-')) {
-    // Handle "1/2" or "1-2" ranges
-    const parts = originalNumber.split(/[-\/]/).map(p => parseFloat(p.trim()))
+  // Handle ranges (4-6 or 4–6 with en-dash)
+  if (/\d+\s*[-–]\s*\d+/.test(originalNumber)) {
+    const parts = originalNumber.split(/[-–]/).map(p => parseFloat(p.trim()))
     if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
-      // For ranges like "1-2 cups", scale both numbers
       const scaled1 = parts[0] * scale
       const scaled2 = parts[1] * scale
       const formatted1 = formatScaledNumber(scaled1)
       const formatted2 = formatScaledNumber(scaled2)
-      return ingredient.replace(originalNumber, `${formatted1}-${formatted2}`)
+      scaledReplacement = `${formatted1}–${formatted2}` // Use en-dash
+      return ingredient.replace(originalNumber, scaledReplacement)
     }
-  } else if (/^\d+\s*[¼½¾⅓⅔⅛⅜⅝⅞]/.test(originalNumber)) {
+  }
+
+  // Handle fractions like "1/2" or "3/4"
+  if (/^\d+\s*[\/]\s*\d+$/.test(originalNumber)) {
+    const parts = originalNumber.split('/').map(p => parseInt(p.trim()))
+    if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+      const numericValue = parts[0] / parts[1]
+      const scaledValue = numericValue * scale
+      scaledReplacement = formatScaledNumber(scaledValue)
+      return ingredient.replace(originalNumber, scaledReplacement)
+    }
+  }
+
+  let numericValue = 0
+
+  // Parse different number formats
+  if (fractionMap[originalNumber]) {
+    // Single unicode fraction like ½
+    numericValue = fractionMap[originalNumber]
+  } else if (/^\d+\s*[¼½¾⅓⅔⅛⅜⅝⅞]$/.test(originalNumber)) {
     // Mixed number like "1½"
     const wholeMatch = originalNumber.match(/^(\d+)\s*([¼½¾⅓⅔⅛⅜⅝⅞])/)
     if (wholeMatch) {
@@ -148,9 +183,33 @@ export function scaleIngredient(ingredient: string, scale: number): string {
   }
 
   const scaledValue = numericValue * scale
-  const formattedNumber = formatScaledNumber(scaledValue)
+  scaledReplacement = formatScaledNumber(scaledValue)
   
-  return ingredient.replace(originalNumber, formattedNumber)
+  return ingredient.replace(originalNumber, scaledReplacement)
+}
+
+// Helper function to detect if a line is likely a section header
+function isLikelyHeader(text: string): boolean {
+  // Headers are typically:
+  // - Short (< 30 chars)
+  // - No numbers
+  // - No measurement words
+  // - Often single words or very short phrases
+  
+  if (text.length > 30) return false
+  
+  // Check if it has numbers
+  if (/\d/.test(text)) return false
+  
+  // Check if it has measurement indicators
+  const measurementWords = /\b(cup|cups|tsp|tbsp|teaspoon|tablespoon|oz|lb|g|kg|ml|l|pinch|handful)\b/i
+  if (measurementWords.test(text)) return false
+  
+  // Check if it has comma (ingredients usually have commas)
+  if (text.includes(',')) return false
+  
+  // If all checks pass, likely a header
+  return true
 }
 
 function formatScaledNumber(value: number): string {
