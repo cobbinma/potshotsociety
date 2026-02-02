@@ -8,7 +8,7 @@ interface SearchBarProps {
   placeholder?: string
 }
 
-export function SearchBar({ onSearch, placeholder = 'Search recipes...' }: SearchBarProps) {
+export function SearchBar({ onSearch, placeholder = 'search for recipes... 🔍' }: SearchBarProps) {
   const [query, setQuery] = useState('')
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,14 +18,14 @@ export function SearchBar({ onSearch, placeholder = 'Search recipes...' }: Searc
   }
 
   return (
-    <div className="relative">
-      <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground/40" />
+    <div className="relative group">
+      <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-primary group-hover:scale-110 transition-transform" />
       <input
         type="text"
         placeholder={placeholder}
         value={query}
         onChange={handleChange}
-        className="w-full rounded-lg border border-accent bg-white py-2 pl-10 pr-4 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+        className="w-full rounded-2xl border-2 border-primary/30 bg-white py-3 pl-12 pr-4 text-base font-medium placeholder:text-foreground/40 focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/20 hover:border-primary/50 transition-all shadow-sm hover:shadow-md"
       />
     </div>
   )
