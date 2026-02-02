@@ -1,10 +1,10 @@
 import { Instruction } from '@/lib/types'
 
 interface InstructionStepsProps {
-  instructions: Instruction[]
+  instructions?: Instruction[]
 }
 
-export function InstructionSteps({ instructions }: InstructionStepsProps) {
+export function InstructionSteps({ instructions = [] }: InstructionStepsProps) {
   return (
     <div className="space-y-4">
       <h2 className="text-2xl font-bold text-foreground mb-4">Instructions</h2>

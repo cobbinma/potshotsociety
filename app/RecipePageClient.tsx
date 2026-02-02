@@ -23,9 +23,9 @@ export function RecipePageClient({ recipes, categories }: RecipePageClientProps)
         !searchQuery ||
         recipe.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         recipe.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        recipe.ingredients.some((ing) =>
+        (recipe.ingredients?.some((ing) =>
           ing.item.toLowerCase().includes(searchQuery.toLowerCase())
-        )
+        ) ?? false)
 
       // Filter by category
       const matchesCategory =

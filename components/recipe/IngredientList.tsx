@@ -4,10 +4,10 @@ import { useState } from 'react'
 import { Ingredient } from '@/lib/types'
 
 interface IngredientListProps {
-  ingredients: Ingredient[]
+  ingredients?: Ingredient[]
 }
 
-export function IngredientList({ ingredients }: IngredientListProps) {
+export function IngredientList({ ingredients = [] }: IngredientListProps) {
   const [checkedItems, setCheckedItems] = useState<Set<string>>(new Set())
 
   const toggleItem = (key: string) => {

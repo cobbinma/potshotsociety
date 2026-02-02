@@ -100,12 +100,12 @@ export default async function RecipePage({ params }: RecipePageProps) {
         ? `PT${(recipe.prepTime || 0) + (recipe.cookTime || 0)}M`
         : undefined,
     recipeYield: recipe.servings?.toString(),
-    recipeIngredient: recipe.ingredients.map((i) => i.item),
-    recipeInstructions: recipe.instructions.map((inst, i) => ({
+    recipeIngredient: recipe.ingredients?.map((i) => i.item) || [],
+    recipeInstructions: recipe.instructions?.map((inst, i) => ({
       '@type': 'HowToStep',
       position: i + 1,
       text: inst.step,
-    })),
+    })) || [],
   }
 
   return (

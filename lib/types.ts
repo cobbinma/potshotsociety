@@ -14,8 +14,8 @@ export interface Recipe {
   prepTime?: number
   cookTime?: number
   servings?: number
-  ingredients: Ingredient[]
-  instructions: Instruction[]
+  ingredients?: Ingredient[]
+  instructions?: Instruction[]
   categories: string[]
   notes?: string
   source?: string
