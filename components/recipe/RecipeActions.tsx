@@ -72,9 +72,10 @@ export function RecipeActions({ recipeId }: RecipeActionsProps) {
       {/* Social Share Section */}
       <div className="border-t-2 border-accent pt-4">
         <div className="flex flex-wrap gap-3">
+          {/* WhatsApp - Mobile only */}
           <button
             onClick={shareToWhatsApp}
-            className="group flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#25D366] hover:bg-[#20BA5A] text-white transition-all duration-300 text-sm font-bold border-2 border-white hover:shadow-lg transform hover:scale-105"
+            className="group md:hidden flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#25D366] hover:bg-[#20BA5A] text-white transition-all duration-300 text-sm font-bold border-2 border-white hover:shadow-lg transform hover:scale-105"
             aria-label="Share on WhatsApp"
           >
             <MessageCircle className="h-4 w-4 group-hover:scale-110 transition-transform" />
