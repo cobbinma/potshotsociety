@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { Recipe } from '@/lib/types'
 import { Card } from '@/components/ui/Card'
 import { CategoryBadge } from '@/components/ui/Badge'
+import { FavoriteButton } from '@/components/recipe/FavoriteButton'
 import { urlForImage } from '@/sanity/lib/image'
 import { formatTime, getTotalTime } from '@/lib/utils'
 import { Clock, Users } from 'lucide-react'
@@ -55,6 +56,8 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
             className="object-cover group-hover:scale-110 transition-transform duration-500"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
+          {/* Favorite button overlay */}
+          <FavoriteButton recipeId={recipe._id} variant="card" />
           {/* Fun sticker overlay - changes based on category */}
           <div className="absolute top-2 right-2 bg-primary text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg transform rotate-12 group-hover:rotate-0 transition-transform">
             {getStickerText()}

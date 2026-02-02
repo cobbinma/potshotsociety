@@ -7,8 +7,7 @@ import { Recipe } from '@/lib/types'
 import { Container } from '@/components/layout/Container'
 import { RecipeHero } from '@/components/recipe/RecipeHero'
 import { RecipeMetadata } from '@/components/recipe/RecipeMetadata'
-import { IngredientList } from '@/components/recipe/IngredientList'
-import { InstructionSteps } from '@/components/recipe/InstructionSteps'
+import { RecipeContent } from '@/components/recipe/RecipeContent'
 import { RecipeActions } from '@/components/recipe/RecipeActions'
 import { ArrowLeft } from 'lucide-react'
 import { urlForImage } from '@/sanity/lib/image'
@@ -141,17 +140,10 @@ export default async function RecipePage({ params }: RecipePageProps) {
           />
 
           {/* Action buttons */}
-          <RecipeActions />
+          <RecipeActions recipeId={recipe._id} />
 
-          {/* Recipe Content */}
-          <div className="grid gap-12 lg:grid-cols-[1fr_1.5fr]">
-            <div>
-              <IngredientList ingredients={recipe.ingredients} />
-            </div>
-            <div>
-              <InstructionSteps instructions={recipe.instructions} />
-            </div>
-          </div>
+          {/* Recipe Content with Scaler */}
+          <RecipeContent recipe={recipe} />
 
           {/* Notes */}
           {recipe.notes && (

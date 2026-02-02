@@ -1,10 +1,15 @@
 'use client'
 
 import { Button } from '@/components/ui/Button'
-import { Printer, Link2, Check, Facebook, Mail } from 'lucide-react'
+import { FavoriteButton } from '@/components/recipe/FavoriteButton'
+import { Printer, Link2, Check, Facebook, Mail, MessageCircle } from 'lucide-react'
 import { useState } from 'react'
 
-export function RecipeActions() {
+interface RecipeActionsProps {
+  recipeId?: string
+}
+
+export function RecipeActions({ recipeId }: RecipeActionsProps) {
   const [copied, setCopied] = useState(false)
 
   const handlePrint = () => {
@@ -19,6 +24,13 @@ export function RecipeActions() {
     } catch (err) {
       console.error('Failed to copy:', err)
     }
+  }
+
+  const shareToWhatsApp = () => {
+    const text = encodeURIComponent(
+      `Check out this delicious recipe from Pot Shot Society! 🍲\n\n${document.title}\n\n${window.location.href}`
+    )
+    window.open(`https://wa.me/?text=${text}`, '_blank')
   }
 
   const shareToFacebook = () => {
@@ -54,11 +66,21 @@ export function RecipeActions() {
             </>
           )}
         </Button>
+        {recipeId && <FavoriteButton recipeId={recipeId} variant="detail" />}
       </div>
 
       {/* Social Share Section */}
       <div className="border-t-2 border-accent pt-4">
         <div className="flex flex-wrap gap-3">
+          <button
+            onClick={shareToWhatsApp}
+            className="group flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#25D366] hover:bg-[#20BA5A] text-white transition-all duration-300 text-sm font-bold border-2 border-white hover:shadow-lg transform hover:scale-105"
+            aria-label="Share on WhatsApp"
+          >
+            <MessageCircle className="h-4 w-4 group-hover:scale-110 transition-transform" />
+            <span className="hidden sm:inline">WhatsApp</span>
+          </button>
+
           <button
             onClick={shareToFacebook}
             className="group flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#1877F2] hover:bg-[#0c5ccc] text-white transition-all duration-300 text-sm font-bold border-2 border-white hover:shadow-lg transform hover:scale-105"

@@ -55,3 +55,127 @@ export function getCategoryTitle(slug: string): string {
   
   return categoryMap[slug] || slug
 }
+
+// Fraction conversion helpers
+const fractionMap: Record<string, number> = {
+  '¼': 0.25, '1/4': 0.25,
+  '½': 0.5, '1/2': 0.5,
+  '¾': 0.75, '3/4': 0.75,
+  '⅓': 0.333, '1/3': 0.333,
+  '⅔': 0.667, '2/3': 0.667,
+  '⅛': 0.125, '1/8': 0.125,
+  '⅜': 0.375, '3/8': 0.375,
+  '⅝': 0.625, '5/8': 0.625,
+  '⅞': 0.875, '7/8': 0.875,
+}
+
+const decimalToFraction = (decimal: number): string => {
+  const tolerance = 1.0E-6
+  let h1 = 1, h2 = 0, k1 = 0, k2 = 1
+  let b = decimal
+  
+  do {
+    const a = Math.floor(b)
+    let aux = h1
+    h1 = a * h1 + h2
+    h2 = aux
+    aux = k1
+    k1 = a * k1 + k2
+    k2 = aux
+    b = 1 / (b - a)
+  } while (Math.abs(decimal - h1 / k1) > decimal * tolerance)
+
+  // Common fractions
+  if (k1 === 2) return '½'
+  if (k1 === 3 && h1 === 1) return '⅓'
+  if (k1 === 3 && h1 === 2) return '⅔'
+  if (k1 === 4 && h1 === 1) return '¼'
+  if (k1 === 4 && h1 === 3) return '¾'
+  if (k1 === 8 && h1 === 1) return '⅛'
+  if (k1 === 8 && h1 === 3) return '⅜'
+  if (k1 === 8 && h1 === 5) return '⅝'
+  if (k1 === 8 && h1 === 7) return '⅞'
+  
+  return `${h1}/${k1}`
+}
+
+export function scaleIngredient(ingredient: string, scale: number): string {
+  if (scale === 1) return ingredient
+
+  // Regex to match numbers (including fractions and decimals) at the start of the string
+  const numberPattern = /^(\d+(?:[.,]\d+)?|\d+\s*[-\/]\s*\d+|[¼½¾⅓⅔⅛⅜⅝⅞]|\d+\s*[¼½¾⅓⅔⅛⅜⅝⅞])/
+
+  const match = ingredient.match(numberPattern)
+  
+  if (!match) {
+    // No number found, return as-is
+    return ingredient
+  }
+
+  const originalNumber = match[1].trim()
+  let numericValue = 0
+
+  // Parse different number formats
+  if (fractionMap[originalNumber]) {
+    // Single fraction
+    numericValue = fractionMap[originalNumber]
+  } else if (originalNumber.includes('/') || originalNumber.includes('-')) {
+    // Handle "1/2" or "1-2" ranges
+    const parts = originalNumber.split(/[-\/]/).map(p => parseFloat(p.trim()))
+    if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+      // For ranges like "1-2 cups", scale both numbers
+      const scaled1 = parts[0] * scale
+      const scaled2 = parts[1] * scale
+      const formatted1 = formatScaledNumber(scaled1)
+      const formatted2 = formatScaledNumber(scaled2)
+      return ingredient.replace(originalNumber, `${formatted1}-${formatted2}`)
+    }
+  } else if (/^\d+\s*[¼½¾⅓⅔⅛⅜⅝⅞]/.test(originalNumber)) {
+    // Mixed number like "1½"
+    const wholeMatch = originalNumber.match(/^(\d+)\s*([¼½¾⅓⅔⅛⅜⅝⅞])/)
+    if (wholeMatch) {
+      const whole = parseInt(wholeMatch[1])
+      const frac = fractionMap[wholeMatch[2]]
+      numericValue = whole + frac
+    }
+  } else {
+    // Regular decimal or whole number
+    numericValue = parseFloat(originalNumber.replace(',', '.'))
+  }
+
+  if (isNaN(numericValue)) {
+    return ingredient
+  }
+
+  const scaledValue = numericValue * scale
+  const formattedNumber = formatScaledNumber(scaledValue)
+  
+  return ingredient.replace(originalNumber, formattedNumber)
+}
+
+function formatScaledNumber(value: number): string {
+  // Round to 2 decimal places
+  const rounded = Math.round(value * 100) / 100
+
+  // If it's a whole number, return it without decimals
+  if (Number.isInteger(rounded)) {
+    return rounded.toString()
+  }
+
+  // Check if it's close to a common fraction
+  const fractionalPart = rounded - Math.floor(rounded)
+  
+  if (fractionalPart > 0.001) {
+    const wholePart = Math.floor(rounded)
+    const fraction = decimalToFraction(fractionalPart)
+    
+    if (wholePart === 0) {
+      return fraction
+    }
+    return `${wholePart} ${fraction}`
+  }
+
+  // Otherwise return as decimal
+  return rounded.toString()
+}
+
