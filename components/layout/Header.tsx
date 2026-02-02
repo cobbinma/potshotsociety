@@ -5,17 +5,17 @@ import { ChefHat, Sparkles } from 'lucide-react'
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 bg-gradient-to-r from-primary/5 via-secondary/5 to-accent/10 backdrop-blur-xl border-b-2 border-primary/20 no-print shadow-sm">
+    <header className="sticky top-0 z-50 bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/20 border-b-2 border-primary/20 no-print shadow-sm">
       <Container>
         <div className="flex h-20 items-center justify-between">
           <Link 
             href="/" 
-            className="group flex items-center space-x-3 transition-transform hover:scale-105"
+            className="group flex items-center space-x-3"
           >
             {/* Fun emoji logo */}
             <div className="relative">
               <span className="text-4xl transition-transform group-hover:rotate-12 inline-block">
-                🍳
+                🍲
               </span>
               <span className="absolute -top-1 -right-1 text-lg opacity-0 group-hover:opacity-100 transition-opacity">
                 ✨
