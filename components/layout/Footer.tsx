@@ -10,7 +10,7 @@ export function Footer() {
             {SITE_NAME} © {new Date().getFullYear()}
           </p>
           <p className="text-center text-sm text-foreground/60">
-            Made with love for sharing delicious recipes
+            Made with love for sharing delicious recipes ❤️
           </p>
         </div>
       </Container>
