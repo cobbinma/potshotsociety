@@ -6,7 +6,6 @@ import { recipeBySlugQuery, allRecipeSlugsQuery } from '@/sanity/lib/queries'
 import { Recipe } from '@/lib/types'
 import { Container } from '@/components/layout/Container'
 import { RecipeHero } from '@/components/recipe/RecipeHero'
-import { RecipeMetadata } from '@/components/recipe/RecipeMetadata'
 import { RecipeContent } from '@/components/recipe/RecipeContent'
 import { RecipeActions } from '@/components/recipe/RecipeActions'
 import { ArrowLeft } from 'lucide-react'
@@ -132,17 +131,10 @@ export default async function RecipePage({ params }: RecipePageProps) {
             categories={recipe.categories}
           />
 
-          {/* Recipe Metadata */}
-          <RecipeMetadata
-            prepTime={recipe.prepTime}
-            cookTime={recipe.cookTime}
-            servings={recipe.servings}
-          />
-
           {/* Action buttons */}
           <RecipeActions recipeId={recipe._id} />
 
-          {/* Recipe Content with Scaler */}
+          {/* Recipe Content with Metadata and Scaler */}
           <RecipeContent recipe={recipe} />
 
           {/* Notes */}
