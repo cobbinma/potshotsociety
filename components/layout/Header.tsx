@@ -38,11 +38,10 @@ export function Header() {
           <nav className="flex items-center space-x-3 md:space-x-4">
             <Link
               href="/"
-              className="group flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 hover:bg-primary hover:text-white transition-all duration-300 text-sm font-semibold border border-primary/20 hover:border-primary hover:shadow-md"
+              className="group hidden md:flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 hover:bg-primary hover:text-white transition-all duration-300 text-sm font-semibold border border-primary/20 hover:border-primary hover:shadow-md"
             >
               <span className="text-lg group-hover:scale-110 transition-transform">🍽️</span>
-              <span className="hidden sm:inline">All Recipes</span>
-              <span className="sm:hidden">Recipes</span>
+              <span>All Recipes</span>
             </Link>
             
             {/* Instagram Button */}
