@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { Container } from './Container'
 import { SITE_NAME } from '@/lib/constants'
-import { ChefHat, Sparkles, Instagram } from 'lucide-react'
+import { ChefHat, Sparkles, Instagram, Heart } from 'lucide-react'
 
 export function Header() {
   return (
@@ -42,6 +42,15 @@ export function Header() {
             >
               <span className="text-lg group-hover:scale-110 transition-transform">🍽️</span>
               <span>All Recipes</span>
+            </Link>
+            
+            {/* Favorites Button */}
+            <Link
+              href="/favorites"
+              className="group flex items-center gap-2 px-3 md:px-4 py-2 rounded-full bg-accent/30 hover:bg-primary hover:text-white transition-all duration-300 text-sm font-semibold border border-accent hover:border-primary hover:shadow-md"
+            >
+              <Heart className="h-4 w-4 group-hover:fill-current transition-all" />
+              <span className="hidden sm:inline">Favorites</span>
             </Link>
             
             {/* Instagram Button */}

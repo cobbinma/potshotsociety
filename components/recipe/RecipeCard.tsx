@@ -36,7 +36,6 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
 
   const totalTime = getTotalTime(recipe.prepTime, recipe.cookTime)
   
-  // Get the sticker text based on first category, or default
   const getStickerText = () => {
     if (recipe.categories && recipe.categories.length > 0) {
       const firstCategory = recipe.categories[0]
