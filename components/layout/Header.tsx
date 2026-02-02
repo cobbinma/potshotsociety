@@ -29,7 +29,7 @@ export function Header() {
                 {SITE_NAME}
               </span>
               <span className="text-xs text-foreground/60 font-medium tracking-wide hidden sm:block">
-                Cook with love 💕
+                Recipes to come back to again and again!
               </span>
             </div>
           </Link>
