@@ -5,7 +5,8 @@ import { ChefHat, Sparkles } from 'lucide-react'
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/20 border-b-2 border-primary/20 no-print shadow-sm">
+    <header className="sticky top-0 z-50 bg-background border-b-2 border-primary/20 no-print shadow-sm relative">
+      <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/20 pointer-events-none" />
       <Container>
         <div className="flex h-20 items-center justify-between">
           <Link 
