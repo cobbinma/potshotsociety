@@ -7,7 +7,7 @@ export function Footer() {
       <Container>
         <div className="flex flex-col items-center justify-center gap-4 py-12 md:flex-row md:justify-between">
           <p className="text-center text-sm leading-loose text-foreground/70 font-medium md:text-left">
-            {SITE_NAME} © {new Date().getFullYear()} 🍲
+            {SITE_NAME} © {new Date().getFullYear()}
           </p>
           <div className="flex flex-col items-center gap-2">
             <p className="text-center text-sm font-semibold text-primary">
