@@ -11,7 +11,7 @@ export function Footer() {
           </p>
           <div className="flex flex-col items-center gap-2">
             <p className="text-center text-sm font-semibold text-primary">
-              made with love for sharing delicious recipes ❤️
+              ❤️
             </p>
           </div>
         </div>
