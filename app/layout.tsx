@@ -22,25 +22,50 @@ export const metadata: Metadata = {
     template: `%s | ${SITE_NAME}`,
   },
   description: SITE_DESCRIPTION,
+  keywords: ['recipes', 'cooking', 'food', 'family recipes', 'home cooking', 'meal ideas', 'Pot Shot Society'],
+  authors: [{ name: 'Pot Shot Society' }],
+  creator: 'Pot Shot Society',
+  publisher: 'Pot Shot Society',
   icons: {
     icon: [
-      { url: '/logo.jpg', sizes: 'any' },
-      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon.ico', sizes: '32x32' },
+      { url: '/favicon-32.jpg', sizes: '32x32', type: 'image/jpeg' },
     ],
     apple: '/logo.jpg',
   },
+  manifest: '/manifest.json',
   openGraph: {
-    type: "website",
+    type: 'website',
+    locale: 'en_US',
+    url: '/',
+    siteName: SITE_NAME,
     title: SITE_NAME,
     description: SITE_DESCRIPTION,
     images: [
       {
         url: '/logo.jpg',
-        width: 512,
-        height: 512,
-        alt: SITE_NAME,
+        width: 1200,
+        height: 630,
+        alt: `${SITE_NAME} - Delicious recipes to share`,
       },
     ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    images: ['/logo.jpg'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
 };
 

@@ -19,3 +19,5 @@ export const CATEGORIES: Category[] = [
 
 export const SITE_NAME = 'Pot Shot Society'
 export const SITE_DESCRIPTION = 'A collection of delicious recipes to share with friends and family'
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+export const INSTAGRAM_URL = 'https://www.instagram.com/potshotsociety'

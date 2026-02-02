@@ -1,0 +1,26 @@
+{
+  "name": "Pot Shot Society",
+  "short_name": "Pot Shot",
+  "description": "A collection of delicious recipes to share with friends and family",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFF7F3",
+  "theme_color": "#C599B6",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "32x32",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/logo.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["food", "lifestyle"],
+  "lang": "en-US",
+  "dir": "ltr"
+}
