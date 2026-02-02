@@ -109,6 +109,11 @@ export function scaleIngredient(ingredient: string, scale: number): string {
     return ingredient
   }
 
+  // Handle "to taste", "to serve", "to garnish" - don't scale these
+  if (/,?\s*(to taste|to serve|to garnish|for serving|for garnish|optional)$/i.test(trimmed)) {
+    return ingredient
+  }
+
   // Handle "Juice of X lemon" pattern
   const juicePattern = /^(.*\bof\s+)(\d+)\s+(lemon|lime|orange)/i
   const juiceMatch = trimmed.match(juicePattern)
@@ -121,8 +126,25 @@ export function scaleIngredient(ingredient: string, scale: number): string {
     return `${prefix}${formatted} ${fruit}`
   }
 
+  // Handle ingredients with parenthetical alternatives like "1 large onion (or 2 small)"
+  // We'll scale the main number and the parenthetical numbers separately
+  const parentheticalPattern = /^(\d+(?:\.\d+)?)\s+([^(]+)\s*\(or\s+(\d+(?:\.\d+)?)\s+([^)]+)\)/i
+  const parenMatch = trimmed.match(parentheticalPattern)
+  if (parenMatch) {
+    const mainCount = parseFloat(parenMatch[1])
+    const mainDesc = parenMatch[2].trim()
+    const altCount = parseFloat(parenMatch[3])
+    const altDesc = parenMatch[4].trim()
+    
+    const scaledMain = formatScaledNumber(mainCount * scale)
+    const scaledAlt = formatScaledNumber(altCount * scale)
+    
+    return `${scaledMain} ${mainDesc} (or ${scaledAlt} ${altDesc})`
+  }
+
   // Pattern to match numbers at the start (with various formats)
   // Handles: "2 eggs", "½ cup", "1½ cups", "4-6 thighs", "4–6 thighs" (en-dash)
+  // Also handles: "20 g butter", "500 g beef mince", "680 g passata"
   const startPattern = /^(\d+(?:[.,]\d+)?|[¼½¾⅓⅔⅛⅜⅝⅞]|\d+\s*[¼½¾⅓⅔⅛⅜⅝⅞]|\d+\s*[\/]\s*\d+|\d+\s*[-–]\s*\d+)/
   
   const match = trimmed.match(startPattern)
