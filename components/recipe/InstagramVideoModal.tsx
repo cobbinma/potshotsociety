@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { Modal } from '@/components/ui/Modal'
-import { Instagram, Loader2, ExternalLink } from 'lucide-react'
+import { Instagram, Loader2 } from 'lucide-react'
 
 interface InstagramVideoModalProps {
   isOpen: boolean
@@ -80,7 +80,7 @@ export function InstagramVideoModal({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} maxWidth="md">
-      <div className="space-y-6">
+      <div>
         {/* Video Embed Area */}
         <div className="relative min-h-[300px] max-h-[600px] flex items-center justify-center overflow-hidden">
           {isLoading && (
@@ -96,7 +96,14 @@ export function InstagramVideoModal({
                 <Instagram className="h-16 w-16 mx-auto mb-4 text-primary" />
                 <p className="text-lg font-medium">Video unavailable to embed</p>
                 <p className="text-sm mt-2">
-                  This video cannot be displayed here, but you can watch it on Instagram.
+                  <a 
+                    href={instagramUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:underline"
+                  >
+                    Click here to watch it on Instagram
+                  </a>
                 </p>
               </div>
             </div>
@@ -108,20 +115,6 @@ export function InstagramVideoModal({
               dangerouslySetInnerHTML={{ __html: embedHtml }}
             />
           )}
-        </div>
-
-        {/* Instagram Link Button */}
-        <div className="flex justify-center pt-4 border-t-2 border-accent">
-          <a
-            href={instagramUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-[#833AB4] via-[#E1306C] to-[#F77737] hover:from-[#9D4EBF] hover:via-[#F1407C] hover:to-[#FF8847] text-white font-bold shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 transition-all duration-300 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/30"
-            aria-label="Open this video on Instagram"
-          >
-            <Instagram className="h-6 w-6 group-hover:scale-110 transition-transform" />
-            <ExternalLink className="h-4 w-4 group-hover:scale-110 transition-transform" />
-          </a>
         </div>
       </div>
 
