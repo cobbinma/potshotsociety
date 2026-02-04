@@ -8,6 +8,7 @@ import { Container } from '@/components/layout/Container'
 import { RecipeHero } from '@/components/recipe/RecipeHero'
 import { RecipeContent } from '@/components/recipe/RecipeContent'
 import { RecipeActions } from '@/components/recipe/RecipeActions'
+import { InstagramVideoButton } from '@/components/recipe/InstagramVideoButton'
 import { ArrowLeft } from 'lucide-react'
 import { urlForImage } from '@/sanity/lib/image'
 import { SITE_NAME } from '@/lib/constants'
@@ -130,6 +131,16 @@ export default async function RecipePage({ params }: RecipePageProps) {
             mainImage={recipe.mainImage}
             categories={recipe.categories}
           />
+
+          {/* Instagram Video Button - Between tags and actions */}
+          {recipe.instagramVideoUrl && (
+            <div className="no-print -mt-2">
+              <InstagramVideoButton
+                instagramUrl={recipe.instagramVideoUrl}
+                recipeName={recipe.title}
+              />
+            </div>
+          )}
 
           {/* Action buttons */}
           <RecipeActions recipeId={recipe._id} />

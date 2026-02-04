@@ -56,6 +56,17 @@ body {
   }
 }
 
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.05);
+  }
+}
+
 .animate-fade-in {
   animation: fade-in 0.6s ease-out;
 }
@@ -66,6 +77,15 @@ body {
 
 .animate-wiggle {
   animation: wiggle 1s ease-in-out infinite;
+}
+
+/* Instagram gradient utilities */
+.instagram-gradient {
+  background: linear-gradient(135deg, #833AB4 0%, #E1306C 50%, #F77737 100%);
+}
+
+.instagram-gradient-hover {
+  background: linear-gradient(135deg, #9D4EBF 0%, #F1407C 50%, #FF8847 100%);
 }
 
 /* Print-friendly styles */

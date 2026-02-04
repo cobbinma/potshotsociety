@@ -20,6 +20,7 @@ export interface Recipe {
   notes?: string
   source?: string
   publishedAt: string
+  instagramVideoUrl?: string
 }
 
 export interface Ingredient {

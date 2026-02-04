@@ -37,7 +37,8 @@ export const recipeBySlugQuery = groq`
     categories,
     notes,
     source,
-    publishedAt
+    publishedAt,
+    instagramVideoUrl
   }
 `
 

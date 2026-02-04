@@ -67,6 +67,23 @@ export const recipe = defineType({
       ],
       description: 'Extra photos (process shots, final dish, etc.)',
     }),
+    defineField({
+      name: 'instagramVideoUrl',
+      title: 'Instagram Video URL',
+      type: 'url',
+      description: '📹 Link to the Instagram Reel or video for this recipe (e.g., https://www.instagram.com/reel/xxxxx/)',
+      validation: (Rule) =>
+        Rule.uri({
+          scheme: ['https'],
+          allowRelative: false,
+        }).custom((url) => {
+          if (!url) return true // Optional field
+          if (url.includes('instagram.com') || url.includes('instagr.am')) {
+            return true
+          }
+          return '⚠️ Must be an Instagram URL (instagram.com or instagr.am)'
+        }),
+    }),
 
     // Timing & Yield
     defineField({
